@@ -1,0 +1,119 @@
+C51 COMPILER V9.00   MUSIC                                                                 03/22/2019 21:57:21 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MUSIC
+OBJECT MODULE PLACED IN music.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE music.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "stc15.h"
+   2          #include "music.h"
+   3          #define FOSC 12000000L //工作频率
+   4          #define T1MS (65536-FOSC/1000)      //1T模式
+   5          
+   6          
+   7          #define Beep P35 //蜂鸣器接口 
+   8          void main()
+   9          {
+  10   1              { //装载曲谱
+  11   2              opern=liangzhilaohu;
+  12   2              opern_count_max=sizeof(liangzhilaohu)/sizeof(liangzhilaohu[0]);
+  13   2              }
+  14   1              {//T0初始化（蜂鸣器驱动定时器）
+  15   2              AUXR |= 0x80;                   //定时器0为1T模式
+  16   2              //  AUXR &= 0x7f;                   //定时器0为12T模式
+  17   2      
+  18   2          TMOD = 0x00;                    //设置定时器为模式0(16位自动重装载)
+  19   2          TL0 = T1MS;                     //初始化计时值
+  20   2          TH0 = T1MS >> 8;
+  21   2          TR0 = 0;                        //关闭定时器 0
+  22   2          ET0 = 0;                        //使能定时器0中断
+  23   2          //EA = 1;
+  24   2      
+  25   2              }
+  26   1              {//初始化T2(时序定时器)
+  27   2              AUXR |= 0x04;                   //定时器2为1T模式
+  28   2              //  AUXR &= ~0x04;                  //定时器2为12T模式
+  29   2              T2L = T1MS;                     //初始化计时值
+  30   2          T2H = T1MS >> 8;
+  31   2          AUXR |= 0x10;                   //定时器2开始计时
+  32   2          
+  33   2          IE2 |= 0x04;                    //开定时器2中断
+  34   2              }
+  35   1              EA = 1;
+  36   1      while(1);//无限循环
+  37   1      }
+  38          
+  39          void T1Timer() interrupt  1
+  40          {
+  41   1        Beep=!Beep; //驱动蜂鸣器
+  42   1      }
+  43          
+  44          void T2Timer() interrupt 12
+  45          {//进入时序定时器
+  46   1      static unsigned char count;
+  47   1      count++;
+  48   1      if(count>100)//到0.1s
+  49   1              {
+  50   2              count=0;
+  51   2              if(!(current.scale&0xf)) //音阶为0，关闭蜂鸣器
+  52   2                      {
+  53   3                       TR0=0;
+  54   3                       Beep=1;//关闭蜂鸣器（实际电平应根据电路确定）
+  55   3                      }
+C51 COMPILER V9.00   MUSIC                                                                 03/22/2019 21:57:21 PAGE 2   
+
+  56   2              else //音阶不为0
+  57   2                      {
+  58   3                      unsigned int  Tc=65536-FOSC/(scale_table[current.scale>>4][(current.scale&0x0f)-1]*2);//计算定时器0初值
+  59   3                              AUXR |= 0x80;                   //定时器0为1T模式
+  60   3                      //  AUXR &= 0x7f;                   //定时器0为12T模式
+  61   3      
+  62   3                              TMOD = 0x00;                    //设置定时器为模式0(16位自动重装载)
+  63   3                              TL0 = Tc;                     //初始化计时值
+  64   3                      TH0 = Tc >> 8;
+  65   3                      TR0 = 1;                        //启动定时器 0
+  66   3                              ET0 = 1;                        //使能定时器0中断
+  67   3      
+  68   3                      }
+  69   2      
+  70   2              if(current.time) //时间不为0
+  71   2                      {
+  72   3                      current.time--;//减时间
+  73   3                      }
+  74   2              else
+  75   2                      {//时间为0，加载下一个音阶
+  76   3                       if(opern)      //当曲谱存在时
+  77   3                              {
+  78   4                               static unsigned int opern_count;
+  79   4                               if(opern_count<opern_count_max)//当曲谱未播放完时
+  80   4                               {
+  81   5                               current=opern[opern_count];
+  82   5                               opern_count++;
+  83   5                               }
+  84   4                               else //从头播放
+  85   4                               {
+  86   5                               opern_count=0;
+  87   5                               current=opern[0];
+  88   5                               }
+  89   4                              }
+  90   3                      }
+  91   2              }
+  92   1      
+  93   1      
+  94   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    305    ----
+   CONSTANT SIZE    =    136    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

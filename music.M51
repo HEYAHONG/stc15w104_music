@@ -1,0 +1,218 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/22/2019  21:57:21  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE music.obj TO music
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  music.obj (MUSIC)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?COPY)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?OFFXADD)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  music (MUSIC)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0009H     UNIT         ?DT?MUSIC
+            DATA    0011H     0002H     UNIT         _DATA_GROUP_
+            IDATA   0013H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     UNIT         ?PR?T1TIMER?MUSIC
+                    0006H     0005H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0044H     UNIT         ?C?LDIV
+            CODE    0052H     0009H     UNIT         ?C_INITSEG
+                    005BH     0008H                  *** GAP ***
+            CODE    0063H     0003H     ABSOLUTE     
+            CODE    0066H     01D0H     UNIT         ?C?LIB_CODE
+            CODE    0236H     00FFH     UNIT         ?PR?T2TIMER?MUSIC
+            CODE    0335H     008CH     UNIT         ?C_C51STARTUP
+            CODE    03C1H     0088H     UNIT         ?CO?MUSIC
+            CODE    0449H     002FH     UNIT         ?PR?MAIN?MUSIC
+
+
+
+OVERLAY MAP OF MODULE:   music (MUSIC)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?PR?T2TIMER?MUSIC              0011H    0002H
+  +--> ?CO?MUSIC
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                  -----    -----
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/22/2019  21:57:21  PAGE 2
+
+
+  +--> ?PR?MAIN?MUSIC
+  +--> ?C_INITSEG
+
+?PR?MAIN?MUSIC                 -----    -----
+  +--> ?CO?MUSIC
+
+
+
+SYMBOL TABLE OF MODULE:  music (MUSIC)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MUSIC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  B:00A8H.7       PUBLIC        EA
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  D:000BH         PUBLIC        current
+  C:0003H         PUBLIC        T1Timer
+  C:0236H         PUBLIC        T2Timer
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  C:0449H         PUBLIC        main
+  D:000DH         PUBLIC        opern
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00B0H.5       PUBLIC        P35
+  D:00AFH         PUBLIC        IE2
+  D:008EH         PUBLIC        AUXR
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:00D6H         PUBLIC        T2H
+  D:008AH         PUBLIC        TL0
+  D:00D7H         PUBLIC        T2L
+  B:0088H.4       PUBLIC        TR0
+  D:000FH         PUBLIC        opern_count_max
+  C:03C1H         PUBLIC        scale_table
+  C:0409H         PUBLIC        liangzhilaohu
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:0449H         LINE#         8
+  C:0449H         LINE#         9
+  C:0449H         LINE#         10
+  C:0449H         LINE#         11
+  C:044FH         LINE#         12
+  C:0455H         LINE#         13
+  C:0455H         LINE#         14
+  C:0455H         LINE#         15
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/22/2019  21:57:21  PAGE 3
+
+
+  C:0458H         LINE#         18
+  C:045BH         LINE#         19
+  C:045EH         LINE#         20
+  C:0461H         LINE#         21
+  C:0463H         LINE#         22
+  C:0465H         LINE#         25
+  C:0465H         LINE#         26
+  C:0465H         LINE#         27
+  C:0468H         LINE#         29
+  C:046BH         LINE#         30
+  C:046EH         LINE#         31
+  C:0471H         LINE#         33
+  C:0474H         LINE#         34
+  C:0474H         LINE#         35
+  C:0476H         LINE#         36
+  -------         ENDPROC       MAIN
+  -------         PROC          T1TIMER
+  C:0003H         LINE#         39
+  C:0003H         LINE#         41
+  C:0005H         LINE#         42
+  -------         ENDPROC       T1TIMER
+  -------         PROC          T2TIMER
+  -------         DO            
+  D:000AH         SYMBOL        count
+  -------         DO            
+  D:0011H         SYMBOL        Tc
+  -------         ENDDO         
+  -------         DO            
+  D:0008H         SYMBOL        opern_count
+  -------         ENDDO         
+  -------         ENDDO         
+  C:0236H         LINE#         44
+  C:0253H         LINE#         47
+  C:0255H         LINE#         48
+  C:025FH         LINE#         49
+  C:025FH         LINE#         50
+  C:0262H         LINE#         51
+  C:0268H         LINE#         52
+  C:0268H         LINE#         53
+  C:026AH         LINE#         54
+  C:026CH         LINE#         55
+  C:026EH         LINE#         57
+  C:026EH         LINE#         58
+  C:02ABH         LINE#         59
+  C:02AEH         LINE#         62
+  C:02B1H         LINE#         63
+  C:02B4H         LINE#         64
+  C:02B8H         LINE#         65
+  C:02BAH         LINE#         66
+  C:02BCH         LINE#         68
+  C:02BCH         LINE#         70
+  C:02C0H         LINE#         71
+  C:02C0H         LINE#         72
+  C:02C2H         LINE#         73
+  C:02C4H         LINE#         75
+  C:02C4H         LINE#         76
+  C:02CAH         LINE#         77
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/22/2019  21:57:21  PAGE 4
+
+
+  C:02CAH         LINE#         79
+  C:02D5H         LINE#         80
+  C:02D5H         LINE#         81
+  C:02F7H         LINE#         82
+  C:02FFH         LINE#         83
+  C:0301H         LINE#         85
+  C:0301H         LINE#         86
+  C:0307H         LINE#         87
+  C:031AH         LINE#         88
+  C:031AH         LINE#         89
+  C:031AH         LINE#         90
+  C:031AH         LINE#         91
+  C:031AH         LINE#         94
+  -------         ENDPROC       T2TIMER
+  -------         ENDMOD        MUSIC
+
+  -------         MODULE        ?C?COPY
+  C:0136H         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
+  -------         MODULE        ?C?SLDIV
+  C:000EH         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?OFFXADD
+  C:015CH         PUBLIC        ?C?OFFXADD
+  -------         ENDMOD        ?C?OFFXADD
+
+  -------         MODULE        ?C?ULDIV
+  C:01A4H         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+Program Size: data=20.0 xdata=0 code=1131
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
